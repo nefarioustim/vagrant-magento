@@ -29,6 +29,20 @@ class nginx {
         require => Package["nginx"],
     }
 
+    file { 'available':
+        path => '/etc/nginx/sites-available/magentolols',
+        ensure => 'link',
+        target => '/var/www/magentolols/etc/dev.nginx.conf',
+    }
+
+    file { 'enabled':
+        path => '/etc/nginx/sites-enabled/magentolols',
+        ensure => 'link',
+        target => '/etc/nginx/sites-available/magentolols',
+        require => File['available'],
+        notify => Service["nginx"],
+    }
+
     service { "nginx":
         ensure => running,
         hasrestart => true,
