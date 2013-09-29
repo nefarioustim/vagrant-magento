@@ -34,3 +34,6 @@ class devbox {
 }
 
 class { "devbox": stage => pre }
+
+include php
+include nginx
