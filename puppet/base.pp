@@ -10,30 +10,30 @@ class devbox {
         command => "aptitude update --quiet --assume-yes",
         user => "root",
         timeout => 0,
-        before => Package["build-essential"]
     }
     group { "puppet":
         ensure => present,
     }
     package { "build-essential":
         ensure => latest,
-        before => Package["vim"],
     }
     package { [
+            "python-software-properties",
             "tmux",
             "vim",
+            "curl",
             "git",
             "git-flow",
-            "aptitude"
+            "aptitude",
+            "memcached",
         ]:
         ensure => latest,
-    }
-    package { "memcached":
-        ensure => latest
+        require => Exec["aptupdate"]
     }
 }
 
 class { "devbox": stage => pre }
 
 include php
+include php::composer
 include nginx
