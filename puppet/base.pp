@@ -34,6 +34,13 @@ class devbox {
 
 class { "devbox": stage => pre }
 
+if $virtual == 'virtualbox' {
+    class { "vagrant-user": stage => pre }
+} else {
+    class { "user": stage => pre }
+}
+
 include php
 include php::composer
+include mysql
 include nginx
