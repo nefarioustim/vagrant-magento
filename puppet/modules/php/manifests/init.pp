@@ -22,16 +22,12 @@ class php {
 
 class php::composer {
     exec { "getcomposer":
-        command => "curl -sS https://getcomposer.org/installer | php",
+        command => "curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer",
         user => "root",
+        creates => "/usr/local/bin/composer",
         require => [
             Class['php'],
             Package["curl"]
         ],
-    }
-    exec { "movecomposer":
-        command => "mv composer.phar /usr/local/bin/composer",
-        user => "root",
-        require => Exec["getcomposer"],
     }
 }
