@@ -40,7 +40,25 @@ if $virtual == 'virtualbox' {
     class { "user": stage => pre }
 }
 
+class { "mysql": root_password => "monkeys" }
+
 include php
 include php::composer
-include mysql
+
+class { "magento":
+    /* magento version */
+    version        => "1.8.0.0",
+
+    /* magento database settings */
+    db_username    => "magento",
+    db_password    => "magento",
+
+    /* magento admin user */
+    admin_username => "admin",
+    admin_password => "123123abc",
+
+    /* "yes|no */
+    use_rewrites   => "no",
+}
+
 include nginx
