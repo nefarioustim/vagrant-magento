@@ -1,0 +1,2 @@
+export PROJECT="/var/www/magentolols"
+export PATH="$PROJECT/bin:$PATH"
