@@ -96,10 +96,10 @@ class magento( $db_username, $db_password, $version, $admin_username, $admin_pas
         --db_name \"magentodb\" \
         --db_user \"${db_username}\" \
         --db_pass \"${db_password}\" \
-        --url \"http://magento.nefariousdesigns.co.uk/magento\" \
+        --url \"http://magento.nefariousdesigns.co.uk\" \
         --use_rewrites \"${use_rewrites}\" \
         --use_secure \"no\" \
-        --secure_base_url \"http://magento.nefariousdesigns.co.uk/magento\" \
+        --secure_base_url \"http://magento.nefariousdesigns.co.uk\" \
         --use_secure_admin \"no\" \
         --skip_url_validation \"yes\" \
         --admin_firstname \"Store\" \
