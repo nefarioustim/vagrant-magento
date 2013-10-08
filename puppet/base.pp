@@ -1,3 +1,5 @@
+$project_root = "/var/www/magentolols"
+
 stage { "pre": before => Stage["main"] }
 
 Exec {
@@ -58,7 +60,7 @@ class { "magento":
     admin_password => "123123abc",
 
     /* "yes|no */
-    use_rewrites   => "no",
+    use_rewrites   => "yes",
 }
 
 include nginx
