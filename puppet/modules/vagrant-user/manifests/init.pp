@@ -1,11 +1,14 @@
 class vagrant-user {
-    user { "vagrant":
-        ensure => present,
-        groups => [ "sudo" ]
-    }
     user { "www-user":
         ensure => present,
         groups => [ "sudo" ]
+    }
+    user { "vagrant":
+        ensure => present,
+        groups => [
+            "sudo",
+            "www-data"
+        ]
     }
     file { "/home/vagrant/.bashrc":
         ensure => present,
