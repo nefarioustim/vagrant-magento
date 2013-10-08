@@ -1,4 +1,4 @@
-$project_root = "/var/www/magentolols"
+$project_root = "/var/www/vagrant-magento"
 
 stage { "pre": before => Stage["main"] }
 

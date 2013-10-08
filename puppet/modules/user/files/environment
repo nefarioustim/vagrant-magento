@@ -1,2 +1,2 @@
-export PROJECT="/var/www/magentolols"
+export PROJECT="/var/www/vagrant-magento"
 export PATH="$PROJECT/bin:$PATH"

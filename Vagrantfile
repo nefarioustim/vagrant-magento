@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
 
     # config.vm.network :forwarded_port, guest: 80, host: 8000
 
-    config.vm.synced_folder ".", "/var/www/magentolols", :nfs => true
+    config.vm.synced_folder ".", "/var/www/vagrant-magento", :nfs => true
 
     config.vm.provision :puppet do |puppet|
         # puppet.options = "-vd"

@@ -30,15 +30,15 @@ class nginx {
     }
 
     file { 'available':
-        path => '/etc/nginx/sites-available/magentolols',
+        path => '/etc/nginx/sites-available/vagrant-magento',
         ensure => 'link',
-        target => '/var/www/magentolols/etc/dev.nginx.conf',
+        target => '/var/www/vagrant-magento/etc/dev.nginx.conf',
     }
 
     file { 'enabled':
-        path => '/etc/nginx/sites-enabled/magentolols',
+        path => '/etc/nginx/sites-enabled/vagrant-magento',
         ensure => 'link',
-        target => '/etc/nginx/sites-available/magentolols',
+        target => '/etc/nginx/sites-available/vagrant-magento',
         require => File['available'],
         notify => Service["nginx"],
     }
