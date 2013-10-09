@@ -12,7 +12,7 @@ class user {
         owner  => huegdon,
         group  => huegdon,
         mode   => 644,
-        source => "puppet:///modules/user/bashrc",
+        content => template("user/bashrc.erb"),
         require => User["huegdon"]
     }
     file { "/home/huegdon/.inputrc":
@@ -20,7 +20,7 @@ class user {
         owner  => huegdon,
         group  => huegdon,
         mode   => 644,
-        source => "puppet:///modules/user/inputrc",
+        content => template("user/inputrc.erb"),
         require => User["huegdon"]
     }
     file { "/home/huegdon/.tmux.conf":
@@ -28,7 +28,7 @@ class user {
         owner  => huegdon,
         group  => huegdon,
         mode   => 644,
-        source => "puppet:///modules/user/tmux_conf",
+        content => template("user/tmux.conf.erb"),
         require => User["huegdon"]
     }
     file { "/home/huegdon/.environment":
@@ -36,7 +36,7 @@ class user {
         owner  => huegdon,
         group  => huegdon,
         mode   => 644,
-        source => "puppet:///modules/user/environment",
+        content => template("user/environment.erb"),
         require => User["huegdon"]
     }
     file { "/home/huegdon/.bash_aliases":
@@ -44,7 +44,7 @@ class user {
         owner  => huegdon,
         group  => huegdon,
         mode   => 644,
-        source => "puppet:///modules/user/bash_aliases",
+        content => template("user/bash_aliases.erb"),
         require => User["huegdon"]
     }
 }

@@ -9,7 +9,7 @@ class nginx {
         owner  => root,
         group  => root,
         mode   => 644,
-        source => "puppet:///modules/nginx/nginx.conf",
+        content => template("nginx/nginx.conf.erb"),
         notify => Service["nginx"],
         require => Package["nginx"],
     }
@@ -18,7 +18,7 @@ class nginx {
         owner  => root,
         group  => root,
         mode   => 644,
-        source => "puppet:///modules/nginx/upstream.conf",
+        content => template("nginx/upstream.conf.erb"),
         notify => Service["nginx"],
         require => Package["nginx"],
     }

@@ -15,7 +15,7 @@ class vagrant-user {
         owner  => vagrant,
         group  => vagrant,
         mode   => 644,
-        source => "puppet:///modules/user/bashrc",
+        content => template("user/bashrc.erb"),
         require => User["vagrant"]
     }
     file { "/home/vagrant/.inputrc":
@@ -23,7 +23,7 @@ class vagrant-user {
         owner  => vagrant,
         group  => vagrant,
         mode   => 644,
-        source => "puppet:///modules/user/inputrc",
+        content => template("user/inputrc.erb"),
         require => User["vagrant"]
     }
     file { "/home/vagrant/.tmux.conf":
@@ -31,7 +31,7 @@ class vagrant-user {
         owner  => vagrant,
         group  => vagrant,
         mode   => 644,
-        source => "puppet:///modules/user/tmux_conf",
+        content => template("user/tmux.conf.erb"),
         require => User["vagrant"]
     }
     file { "/home/vagrant/.environment":
@@ -39,7 +39,7 @@ class vagrant-user {
         owner  => vagrant,
         group  => vagrant,
         mode   => 644,
-        source => "puppet:///modules/user/environment",
+        content => template("user/environment.erb"),
         require => User["vagrant"]
     }
     file { "/home/vagrant/.bash_aliases":
@@ -47,7 +47,7 @@ class vagrant-user {
         owner  => vagrant,
         group  => vagrant,
         mode   => 644,
-        source => "puppet:///modules/user/bash_aliases",
+        content => template("user/bash_aliases.erb"),
         require => User["vagrant"]
     }
 }
