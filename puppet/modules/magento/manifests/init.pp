@@ -1,4 +1,4 @@
-class magento( $db_username, $db_password, $version, $admin_username, $admin_password, $use_rewrites) {
+class magento( $db_username, $db_password, $version, $admin_username, $admin_password, $use_rewrites, $use_sample_data = false) {
     exec { "create-magentodb-db":
         unless => "/usr/bin/mysql -uroot -p${mysql::root_password} magentodb",
         command => "/usr/bin/mysqladmin -uroot -p${mysql::root_password} create magentodb",
@@ -38,40 +38,42 @@ class magento( $db_username, $db_password, $version, $admin_username, $admin_pas
         ]
     }
 
-    exec { "sample-data-download":
-        cwd => "/tmp",
-        command => "curl -O http://www.magentocommerce.com/downloads/assets/1.6.1.0/magento-sample-data-1.6.1.0.tar.gz",
-        creates => "/tmp/magento-sample-data-1.6.1.0.tar.gz",
-        require => Package["curl"]
-    }
+    if $use_sample_data == true {
+        exec { "sample-data-download":
+            cwd => "/tmp",
+            command => "curl -O http://www.magentocommerce.com/downloads/assets/1.6.1.0/magento-sample-data-1.6.1.0.tar.gz",
+            creates => "/tmp/magento-sample-data-1.6.1.0.tar.gz",
+            require => Package["curl"]
+        }
 
-    exec { "sample-data-untar":
-        cwd => "/tmp",
-        user  => "vagrant",
-        command => "/bin/tar xvzf /tmp/magento-sample-data-1.6.1.0.tar.gz",
-        creates => "/tmp/magento-sample-data-1.6.1.0",
-        require => [
-            Exec["sample-data-download"],
-            User["vagrant"],
-        ]
-    }
+        exec { "sample-data-untar":
+            cwd => "/tmp",
+            user  => "vagrant",
+            command => "/bin/tar xvzf /tmp/magento-sample-data-1.6.1.0.tar.gz",
+            creates => "/tmp/magento-sample-data-1.6.1.0",
+            require => [
+                Exec["sample-data-download"],
+                User["vagrant"],
+            ]
+        }
 
-    exec { "sample-data-copy-catalog":
-        cwd => "${::project_root}/public/magento/media",
-        user  => "vagrant",
-        command => "cp -R /tmp/magento-sample-data-1.6.1.0/media/catalog .",
-        require => [
-            Exec["sample-data-untar"],
-            Exec["untar-magento"]
-        ]
-    }
+        exec { "sample-data-copy-catalog":
+            cwd => "${::project_root}/public/magento/media",
+            user  => "vagrant",
+            command => "cp -R /tmp/magento-sample-data-1.6.1.0/media/catalog .",
+            require => [
+                Exec["sample-data-untar"],
+                Exec["untar-magento"]
+            ]
+        }
 
-    exec { "sample-data-import-db":
-        command => "/usr/bin/mysql -uroot -p${mysql::root_password} magentodb < /tmp/magento-sample-data-1.6.1.0/magento_sample_data_for_1.6.1.0.sql",
-        require => [
-            Exec["create-magentodb-db"],
-            Exec["sample-data-copy-catalog"]
-        ]
+        exec { "sample-data-import-db":
+            command => "/usr/bin/mysql -uroot -p${mysql::root_password} magentodb < /tmp/magento-sample-data-1.6.1.0/magento_sample_data_for_1.6.1.0.sql",
+            require => [
+                Exec["create-magentodb-db"],
+                Exec["sample-data-copy-catalog"]
+            ]
+        }
     }
 
     exec { "setting-permissions":
