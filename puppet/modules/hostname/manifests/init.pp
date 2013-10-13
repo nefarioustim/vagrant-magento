@@ -1,14 +1,8 @@
 define hostname($hostname = $title) {
-    $host_alias = regsubst($name, '^([^.]*).*$', '\1')
-
     host { "newhost":
         ensure => present,
         ip     => $ipaddress,
         name  => $hostname,
-        host_aliases  => $host_alias ? {
-            $hostname => undef,
-            default     => $host_alias,
-        },
         notify => Service['hostname'],
     }
 

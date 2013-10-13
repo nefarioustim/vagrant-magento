@@ -8,7 +8,7 @@ Exec {
 
 class devbox {
     hostname { "update-hostname":
-        hostname => "mage.nefariousdesigns.co.uk"
+        hostname => "magento.nefariousdesigns.co.uk"
     }
     exec { "aptupdate":
         command => "aptitude update --quiet --assume-yes",
