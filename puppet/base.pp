@@ -7,7 +7,9 @@ Exec {
 }
 
 class devbox {
-    rename { "magento.nefariousdesigns.co.uk": }
+    hostname { "update-hostname":
+        hostname => "mage.nefariousdesigns.co.uk"
+    }
     exec { "aptupdate":
         command => "aptitude update --quiet --assume-yes",
         user => "root",
