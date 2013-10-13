@@ -7,7 +7,7 @@ class ondrejppa {
     }
 }
 
-class php {
+class php($db_binding = false) {
     require ondrejppa
 
     package { [
@@ -15,11 +15,19 @@ class php {
             "php5-cli",
             "php-pear",
             "php5-mcrypt",
-            "php5-curl",
             "php5-gd",
         ]:
         ensure => latest,
         require => Class['ondrejppa'],
+    }
+
+    package { "php5-curl":
+        require => Package["curl"]
+    }
+
+    case $db_binding {
+        "mysql":        { package { "php5-mysql": ensure => latest } }
+        "postgresql":   { package { "php5-pgsql": ensure => latest } }
     }
 
     file { "/etc/php5/fpm/php.ini":
@@ -27,22 +35,6 @@ class php {
         notify => Service["php5-fpm"],
         require => Package["php5-fpm"]
     }
-
-    # file { "/var/lib/php5/session":
-    #     ensure => "directory",
-    #     owner  => "root",
-    #     group  => "root",
-    #     mode   => 777,
-    # }
-
-    # file { "/etc/php5/fpm/pool.d/www.conf":
-    #     content => template("php/www.conf.erb"),
-    #     notify => Service["php5-fpm"],
-    #     require => [
-    #         Package["php5-fpm"],
-    #         File["/var/lib/php5/session"]
-    #     ]
-    # }
 
     service { "php5-fpm":
         ensure => running,

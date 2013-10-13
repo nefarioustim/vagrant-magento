@@ -46,9 +46,11 @@ if $virtual == 'virtualbox' {
     }
 }
 
+include nginx
+
 class { "mysql": root_password => "monkeys" }
 
-include php
+class { "php": db_binding => "mysql" }
 include php::composer
 
 class { "magento":
@@ -69,5 +71,3 @@ class { "magento":
     /* true or false */
     use_sample_data => true,
 }
-
-include nginx
