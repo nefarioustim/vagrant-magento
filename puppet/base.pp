@@ -37,9 +37,11 @@ class devbox {
 class { "devbox": stage => pre }
 
 if $virtual == 'virtualbox' {
-    class { "vagrant-user": stage => pre }
-} else {
-    class { "user": stage => pre }
+    class { "user":
+        stage => pre,
+        username => 'vagrant',
+        groupname => 'vagrant'
+    }
 }
 
 class { "mysql": root_password => "monkeys" }

@@ -1,50 +1,57 @@
-class user {
-    user { "huegdon":
+class user($username, $groupname) {
+    group { $groupname:
         ensure => present,
-        groups => [ "sudo" ]
+    }
+    user { $username:
+        ensure => present,
+        groups => [
+            "sudo",
+            $groupname
+        ],
+        require => Group[$groupname]
     }
     user { "www-user":
         ensure => present,
         groups => [ "sudo" ]
     }
-    file { "/home/huegdon/.bashrc":
+    file { "/home/${username}/.bashrc":
         ensure => present,
-        owner  => huegdon,
-        group  => huegdon,
+        owner  => $username,
+        group  => $groupname,
         mode   => 644,
         content => template("user/bashrc.erb"),
-        require => User["huegdon"]
+        require => User[$username]
     }
-    file { "/home/huegdon/.inputrc":
+    file { "/home/${username}/.inputrc":
         ensure => present,
-        owner  => huegdon,
-        group  => huegdon,
+        owner  => $username,
+        group  => $groupname,
         mode   => 644,
         content => template("user/inputrc.erb"),
-        require => User["huegdon"]
+        require => User[$username]
     }
-    file { "/home/huegdon/.tmux.conf":
+    file { "/home/${username}/.tmux.conf":
         ensure => present,
-        owner  => huegdon,
-        group  => huegdon,
+        owner  => $username,
+        group  => $groupname,
         mode   => 644,
         content => template("user/tmux.conf.erb"),
-        require => User["huegdon"]
+        require => User[$username]
     }
-    file { "/home/huegdon/.environment":
+    file { "/home/${username}/.environment":
         ensure => present,
-        owner  => huegdon,
-        group  => huegdon,
+        owner  => $username,
+        group  => $groupname,
         mode   => 644,
         content => template("user/environment.erb"),
-        require => User["huegdon"]
+        require => User[$username]
     }
-    file { "/home/huegdon/.bash_aliases":
+    file { "/home/${username}/.bash_aliases":
         ensure => present,
-        owner  => huegdon,
-        group  => huegdon,
+        owner  => $username,
+        group  => $groupname,
         mode   => 644,
         content => template("user/bash_aliases.erb"),
-        require => User["huegdon"]
+        require => User[$username]
     }
 }
