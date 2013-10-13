@@ -1,10 +1,15 @@
-class mysql ( $root_password ) {
-    package { "mysql-server": ensure => latest }
-    package { "mysql-client": ensure => latest }
-    package { "php5-mysql": ensure => latest }
+class mysql($root_password) {
+    package { [
+            "mysql-server",
+            "mysql-client"
+        ]:
+        ensure => latest
+    }
 
     file { "/etc/mysql/my.cnf":
-        content => template("mysql/my.cnf.erb")
+        content => template("mysql/my.cnf.erb"),
+        require => Package["mysql-server"],
+        notify => Service["mysql"]
     }
 
     exec { "set-root-password":
