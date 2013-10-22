@@ -36,6 +36,18 @@ class php($db_binding = false) {
         require => Package["php5-fpm"]
     }
 
+    file { "/etc/php5/fpm/php-fpm.conf":
+        content => template("php/php-fpm.conf.erb"),
+        notify => Service["php5-fpm"],
+        require => Package["php5-fpm"]
+    }
+
+    file { "/etc/php5/fpm/pool.d/www.conf":
+        content => template("php/www.conf.erb"),
+        notify => Service["php5-fpm"],
+        require => Package["php5-fpm"]
+    }
+
     service { "php5-fpm":
         ensure => running,
         hasrestart => true,
