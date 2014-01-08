@@ -40,8 +40,6 @@ class { "devbox": stage => pre }
 
 if $virtual == 'virtualbox' {
     $userandgroup = 'vagrant'
-} else {
-    $userandgroup = 'tizarobot'
 }
 
 class { "user":
