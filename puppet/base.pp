@@ -1,4 +1,4 @@
-$project_root = "/var/www/vagrant-magento"
+$project_name = "vagrant-magento"
 
 stage { "pre": before => Stage["main"] }
 
@@ -39,11 +39,15 @@ class devbox {
 class { "devbox": stage => pre }
 
 if $virtual == 'virtualbox' {
-    class { "user":
-        stage => pre,
-        username => 'vagrant',
-        groupname => 'vagrant'
-    }
+    $userandgroup = 'vagrant'
+} else {
+    $userandgroup = 'tizarobot'
+}
+
+class { "user":
+    stage => pre,
+    username => $userandgroup,
+    groupname => $userandgroup
 }
 
 include nginx
@@ -52,6 +56,8 @@ class { "mysql": root_password => "monkeys" }
 
 class { "php": db_binding => "mysql" }
 include php::composer
+
+$project_root = "/home/${userandgroup}/${project_name}"
 
 class { "magento":
     /* magento version */
