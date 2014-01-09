@@ -1,4 +1,10 @@
+if $virtual == 'virtualbox' {
+    $userandgroup = 'vagrant'
+}
+
 $project_name = "vagrant-magento"
+$project_root = "/home/${userandgroup}/${project_name}"
+$project_host = "magento.nefariousdesigns.co.uk"
 
 stage { "pre": before => Stage["main"] }
 
@@ -8,7 +14,7 @@ Exec {
 
 class devbox {
     hostname { "update-hostname":
-        hostname => "magento.nefariousdesigns.co.uk"
+        hostname => $project_host
     }
     exec { "aptupdate":
         command => "aptitude update --quiet --assume-yes",
@@ -38,10 +44,6 @@ class devbox {
 
 class { "devbox": stage => pre }
 
-if $virtual == 'virtualbox' {
-    $userandgroup = 'vagrant'
-}
-
 class { "user":
     stage => pre,
     username => $userandgroup,
@@ -49,13 +51,15 @@ class { "user":
 }
 
 include nginx
+class { "nginx::magento-vhost":
+    hostname => $project_host,
+    location => $project_root
+}
 
 class { "mysql": root_password => "monkeys" }
 
 class { "php": db_binding => "mysql" }
 include php::composer
-
-$project_root = "/home/${userandgroup}/${project_name}"
 
 class { "magento":
     /* magento version */
