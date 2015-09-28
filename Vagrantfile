@@ -3,7 +3,8 @@
 
 Vagrant.configure("2") do |config|
     config.vm.box = "ubuntu-12.04"
-
+    config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
+    
     config.vm.network :private_network, ip: "33.33.33.30"
 
     # config.vm.network :forwarded_port, guest: 80, host: 8000
